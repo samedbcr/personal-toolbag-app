@@ -1,5 +1,6 @@
 import 'package:PersonalToolbag/theme/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -15,6 +16,7 @@ class HomeView extends StatelessWidget {
         children: [
           _buildSectionTitle(context, "Toolbag Items"),
           buildToolbagItemsList(context),
+          SizedBox(height: 20),
           _buildSectionTitle(context, "Recent Activities"),
           _buildRecentActivitiesList(),
         ],
@@ -24,7 +26,7 @@ class HomeView extends StatelessWidget {
 
   Padding _buildSectionTitle(BuildContext context, String text) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyText1,
@@ -36,7 +38,7 @@ class HomeView extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Row(
           children: [
             _buildToolbagItemsCard(context, "To-Do List", "Organize your tasks",
@@ -81,9 +83,19 @@ class HomeView extends StatelessWidget {
                     .bodyText2
                     .copyWith(fontWeight: FontWeight.w500),
               ),
-              Text(
-                countText,
-                style: Theme.of(context).textTheme.caption,
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/images/profile-pic.png",
+                    width: 32,
+                    height: 32,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    countText,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
               ),
             ],
           ),
@@ -103,7 +115,7 @@ class HomeView extends StatelessWidget {
                   ? AppConstants.purple
                   : AppConstants.somon,
           "New Task Added",
-          "New Task Added",
+          "Yesterday",
         ),
       ),
     );
@@ -120,8 +132,12 @@ class HomeView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.check),
-          SizedBox(width: 10),
+          SvgPicture.asset(
+            "assets/icons/checked.svg",
+            height: 27,
+            width: 27,
+          ),
+          SizedBox(width: 14),
           Text(text),
           Spacer(),
           Text(date),
