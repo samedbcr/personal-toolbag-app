@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
           buildToolbagItemsList(context),
           SizedBox(height: 20),
           _buildSectionTitle(context, "Recent Activities"),
-          _buildRecentActivitiesList(),
+          _buildRecentActivitiesList(context),
         ],
       ),
     );
@@ -69,46 +69,54 @@ class HomeView extends StatelessWidget {
           ]),
       child: AspectRatio(
         aspectRatio: 4 / 3,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.headline6),
-              Text(
-                desciption,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
-              Row(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    "assets/images/profile-pic.png",
-                    width: 32,
-                    height: 32,
-                  ),
-                  SizedBox(width: 10),
+                  Text(title, style: Theme.of(context).textTheme.headline6),
                   Text(
-                    countText,
-                    style: Theme.of(context).textTheme.caption,
+                    desciption,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images/profile-pic.png",
+                        width: 32,
+                        height: 32,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        countText,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Expanded _buildRecentActivitiesList() {
+  Expanded _buildRecentActivitiesList(BuildContext context) {
     return Expanded(
       child: ListView.builder(
         itemCount: 5,
         itemBuilder: (context, i) => _buildRecentActivitiesCard(
+          context,
           i % 3 == 0
               ? AppConstants.green
               : i % 3 == 1
@@ -122,7 +130,7 @@ class HomeView extends StatelessWidget {
   }
 
   Container _buildRecentActivitiesCard(
-      Color bgColor, String text, String date) {
+      BuildContext context, Color bgColor, String text, String date) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),
@@ -138,9 +146,19 @@ class HomeView extends StatelessWidget {
             width: 27,
           ),
           SizedBox(width: 14),
-          Text(text),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
           Spacer(),
-          Text(date),
+          Text(
+            date,
+            style: Theme.of(context).textTheme.caption.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
         ],
       ),
     );
