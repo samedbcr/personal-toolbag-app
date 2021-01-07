@@ -1,3 +1,4 @@
+import 'package:PersonalToolbag/theme/custom_light_theme.dart';
 import 'package:PersonalToolbag/view/home_view.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      debugShowCheckedModeBanner: false,
+      theme: CustomLightTheme.theme,
       home: HomeView(),
     );
   }
