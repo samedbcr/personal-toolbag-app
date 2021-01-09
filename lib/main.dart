@@ -1,4 +1,5 @@
 import 'package:PersonalToolbag/theme/custom_light_theme.dart';
+import 'package:PersonalToolbag/view/hes_code_view.dart';
 import 'package:PersonalToolbag/view/home_view.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,11 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       debugShowCheckedModeBanner: false,
       theme: CustomLightTheme.theme,
-      home: HomeView(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeView(),
+        '/hes_code': (context) => HesCodeView(),
+      },
     );
   }
 }
