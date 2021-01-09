@@ -1,4 +1,5 @@
 import 'package:PersonalToolbag/theme/constants.dart';
+import 'package:PersonalToolbag/widgets/activity_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -18,7 +19,7 @@ class HomeView extends StatelessWidget {
           buildToolbagItemsList(context),
           SizedBox(height: 20),
           _buildSectionTitle(context, "Recent Activities"),
-          _buildRecentActivitiesList(context),
+          _buildRecentActivitiesList(),
         ],
       ),
     );
@@ -29,7 +30,10 @@ class HomeView extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -73,7 +77,9 @@ class HomeView extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(18),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/hes_code");
+            },
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -111,55 +117,25 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Expanded _buildRecentActivitiesList(BuildContext context) {
+  Expanded _buildRecentActivitiesList() {
     return Expanded(
       child: ListView.builder(
         itemCount: 5,
-        itemBuilder: (context, i) => _buildRecentActivitiesCard(
-          context,
-          i % 3 == 0
+        itemBuilder: (context, i) => ActivityCard(
+          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          bgColor: i % 3 == 0
               ? AppConstants.green
               : i % 3 == 1
                   ? AppConstants.purple
                   : AppConstants.somon,
-          "New Task Added",
-          "Yesterday",
-        ),
-      ),
-    );
-  }
-
-  Container _buildRecentActivitiesCard(
-      BuildContext context, Color bgColor, String text, String date) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),
-      decoration: BoxDecoration(
-        color: bgColor.withOpacity(.30),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(
+          icon: SvgPicture.asset(
             "assets/icons/checked.svg",
             height: 27,
             width: 27,
           ),
-          SizedBox(width: 14),
-          Text(
-            text,
-            style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          Spacer(),
-          Text(
-            date,
-            style: Theme.of(context).textTheme.caption.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-        ],
+          text: "New Task Added",
+          date: "Yesterday",
+        ),
       ),
     );
   }
