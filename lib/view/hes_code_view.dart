@@ -1,18 +1,30 @@
 import 'package:PersonalToolbag/theme/constants.dart';
+import 'package:PersonalToolbag/view_model/hes_code_view_model.dart';
 import 'package:PersonalToolbag/widgets/activity_card.dart';
+import 'package:PersonalToolbag/widgets/custom_input_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HesCodeView extends StatelessWidget {
+  final HesCodeViewModel _viewModel = HesCodeViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: _buildBody(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        _showDialog(context);
+      },
+      backgroundColor: AppConstants.green,
+      child: Icon(Icons.add),
     );
   }
 
@@ -38,7 +50,7 @@ class HesCodeView extends StatelessWidget {
             "Lorem ipsum lorem ipsum, Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum",
           ),
           SizedBox(height: 20),
-          _buildRecentActivitiesList(),
+          _callHesCodeStream(),
         ],
       ),
     );
@@ -105,10 +117,33 @@ class HesCodeView extends StatelessWidget {
     );
   }
 
-  Expanded _buildRecentActivitiesList() {
+  Widget _callHesCodeStream() {
+    return StreamBuilder(
+      stream: _viewModel.getHesCodes(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Text('Waiting');
+            break;
+          case ConnectionState.active:
+          case ConnectionState.done:
+            if (snapshot.hasData) {
+              return _buildRecentActivitiesList(snapshot.data.docs);
+            } else {
+              return Text("no data");
+            }
+            break;
+          default:
+            return Text('Active');
+        }
+      },
+    );
+  }
+
+  Expanded _buildRecentActivitiesList(List hesCodeList) {
     return Expanded(
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: hesCodeList.length,
         itemBuilder: (context, i) => ActivityCard(
           margin: EdgeInsets.symmetric(vertical: 10),
           bgColor: i % 3 == 0
@@ -121,10 +156,23 @@ class HesCodeView extends StatelessWidget {
             height: 27,
             width: 27,
           ),
-          text: "Y6X5-5521-14",
+          text: hesCodeList[i]['code'].toString(),
           date: "3 weeks",
         ),
       ),
     );
+  }
+
+  Future _showDialog(BuildContext context) async {
+    var data = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return CustomInputDialog(
+          text: 'Enter your HES Code below:',
+        );
+      },
+    );
+    return data;
   }
 }
