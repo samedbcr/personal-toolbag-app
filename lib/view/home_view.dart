@@ -1,19 +1,13 @@
-import 'package:PersonalToolbag/core/providers/theme_provider.dart';
 import 'package:PersonalToolbag/theme/constants.dart';
+import 'package:PersonalToolbag/view_model/home_view_model.dart';
 import 'package:PersonalToolbag/widgets/activity_card.dart';
 import 'package:PersonalToolbag/widgets/theme_switch.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 
-class HomeView extends StatefulWidget {
-  @override
-  _HomeViewState createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  bool isSwitched = false;
-
+class HomeView extends StatelessWidget {
+  HomeViewModel _viewModel = HomeViewModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
           buildToolbagItemsList(context),
           SizedBox(height: 20),
           _buildSectionTitle(context, "Recent Activities"),
-          _buildRecentActivitiesList(),
+          _callRecentActivitiesStream(),
         ],
       ),
     );
@@ -57,18 +51,40 @@ class _HomeViewState extends State<HomeView> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Row(
           children: [
-            _buildToolbagItemsCard(context, "To-Do List", "Organize your tasks",
-                "You have 2 tasks", AppConstants.gold),
-            _buildToolbagItemsCard(context, "HES Code", "Organize your codes",
-                "You have 5 codes", AppConstants.blue),
+            _buildToolbagItemsCard(
+              context: context,
+              title: "To-Do List",
+              desciption: "Organize your tasks",
+              bgColor: AppConstants.gold,
+              countText: "You have 2 tasks",
+              onClick: () {
+                Navigator.pushNamed(context, "/to_do");
+              },
+            ),
+            _buildToolbagItemsCard(
+              context: context,
+              title: "HES Code",
+              desciption: "Organize your tasks",
+              bgColor: AppConstants.blue,
+              countText: "You have 5 codes",
+              onClick: () {
+                Navigator.pushNamed(context, "/hes_code");
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Container _buildToolbagItemsCard(BuildContext context, String title,
-      String desciption, String countText, Color bgColor) {
+  Container _buildToolbagItemsCard({
+    BuildContext context,
+    String title,
+    String desciption,
+    String countText,
+    Color bgColor,
+    Function onClick,
+  }) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       width: MediaQuery.of(context).size.width * .55,
@@ -89,9 +105,7 @@ class _HomeViewState extends State<HomeView> {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(18),
-            onTap: () {
-              Navigator.pushNamed(context, "/hes_code");
-            },
+            onTap: onClick,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -129,10 +143,34 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Expanded _buildRecentActivitiesList() {
+  Widget _callRecentActivitiesStream() {
+    return StreamBuilder(
+      stream: _viewModel.getRecentActivities(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Text('Waiting');
+            break;
+          case ConnectionState.active:
+          case ConnectionState.done:
+            if (snapshot.hasData) {
+              return _buildRecentActivitiesList(snapshot.data.docs);
+            } else {
+              return Text("no data");
+            }
+            break;
+          default:
+            return Text('Active');
+        }
+      },
+    );
+  }
+
+  Expanded _buildRecentActivitiesList(
+      List<QueryDocumentSnapshot> activitiesList) {
     return Expanded(
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: activitiesList.length,
         itemBuilder: (context, i) => ActivityCard(
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           bgColor: i % 3 == 0
@@ -145,7 +183,7 @@ class _HomeViewState extends State<HomeView> {
             height: 27,
             width: 27,
           ),
-          text: "New Task Added",
+          text: activitiesList[i]['text'].toString(),
           date: "Yesterday",
         ),
       ),
