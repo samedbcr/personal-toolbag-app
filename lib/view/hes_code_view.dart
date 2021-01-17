@@ -180,6 +180,7 @@ class HesCodeView extends StatelessWidget {
         );
       },
     );
-    return _viewModel.addHesCode(data);
+    print(data);
+    return data != '' ? _viewModel.addHesCode(data) : null;
   }
 }

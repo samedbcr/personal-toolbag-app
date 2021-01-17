@@ -11,8 +11,9 @@ class RecentActivitiesService {
   }
 
   Stream<QuerySnapshot> getRecentActivities() {
-    Query _recentActivitiesQuery =
-        _recentActivitiesCollection.orderBy('created_at', descending: true);
+    Query _recentActivitiesQuery = _recentActivitiesCollection
+        .orderBy('created_at', descending: true)
+        .limit(8);
     return _recentActivitiesQuery.snapshots();
   }
 

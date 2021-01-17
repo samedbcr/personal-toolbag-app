@@ -184,7 +184,7 @@ class HomeView extends StatelessWidget {
             width: 27,
           ),
           text: activitiesList[i]['text'].toString(),
-          date: "Yesterday",
+          date: "Just Now",
         ),
       ),
     );

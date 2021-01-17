@@ -172,6 +172,6 @@ class TodoListView extends StatelessWidget {
         );
       },
     );
-    return _viewModel.addTodo(data);
+    return data != '' ? _viewModel.addTodo(data) : null;
   }
 }
