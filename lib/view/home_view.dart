@@ -1,15 +1,27 @@
+import 'package:PersonalToolbag/core/providers/theme_provider.dart';
 import 'package:PersonalToolbag/theme/constants.dart';
 import 'package:PersonalToolbag/widgets/activity_card.dart';
+import 'package:PersonalToolbag/widgets/theme_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  bool isSwitched = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.menu),
-        actions: [Icon(Icons.notifications_none)],
+        actions: [
+          ThemeSwitch(),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

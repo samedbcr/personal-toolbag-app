@@ -47,7 +47,9 @@ class HesCodeView extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            "Lorem ipsum lorem ipsum, Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum",
+            "- You can store HES Codes here\n" +
+                "- In order to add HES Code, click the button below\n" +
+                "- Swipe to dismiss",
           ),
           SizedBox(height: 20),
           _callHesCodeStream(),
