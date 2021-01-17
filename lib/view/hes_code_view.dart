@@ -140,11 +140,16 @@ class HesCodeView extends StatelessWidget {
     );
   }
 
-  Expanded _buildRecentActivitiesList(List hesCodeList) {
+  Expanded _buildRecentActivitiesList(List<QueryDocumentSnapshot> hesCodeList) {
     return Expanded(
       child: ListView.builder(
         itemCount: hesCodeList.length,
         itemBuilder: (context, i) => ActivityCard(
+          key: UniqueKey(),
+          isDismissible: true,
+          onDismiss: (direction) {
+            _viewModel.deleteHesCode(hesCodeList[i].reference);
+          },
           margin: EdgeInsets.symmetric(vertical: 10),
           bgColor: i % 3 == 0
               ? AppConstants.green
@@ -173,6 +178,6 @@ class HesCodeView extends StatelessWidget {
         );
       },
     );
-    return data;
+    return _viewModel.addHesCode(data);
   }
 }

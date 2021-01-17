@@ -10,15 +10,17 @@ class HesCodeService {
   }
 
   Stream<QuerySnapshot> getHesCodes() {
-    return _hesCodeCollection.snapshots();
+    Query _hesCodesQuery =
+        _hesCodeCollection.where('isDeleted', isEqualTo: false);
+    return _hesCodesQuery.snapshots();
   }
 
-  Future<void> addHesCode() async {
-    await _hesCodeCollection.add(
-      {
-        "Hello": "Samed",
-        "1": 2,
-      },
-    );
+  Future<DocumentReference> addHesCode(Map<String, dynamic> data) async {
+    return await _hesCodeCollection.add(data);
+  }
+
+  Future<void> deleteHesCode(
+      DocumentReference reference, Map<String, dynamic> data) async {
+    return await reference.update(data);
   }
 }

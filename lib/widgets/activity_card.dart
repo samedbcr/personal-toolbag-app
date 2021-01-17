@@ -8,6 +8,8 @@ class ActivityCard extends StatelessWidget {
     this.date,
     this.icon,
     this.margin,
+    this.isDismissible = false,
+    this.onDismiss,
   }) : super(key: key);
 
   final Color bgColor;
@@ -15,9 +17,24 @@ class ActivityCard extends StatelessWidget {
   final String text;
   final String date;
   final EdgeInsetsGeometry margin;
+  final bool isDismissible;
+  final DismissDirectionCallback onDismiss;
 
   @override
   Widget build(BuildContext context) {
+    return isDismissible
+        ? Dismissible(
+            key: key,
+            onDismissed: onDismiss,
+            background: Container(
+              color: Colors.red,
+            ),
+            child: cardContainer(context),
+          )
+        : cardContainer(context);
+  }
+
+  Container cardContainer(BuildContext context) {
     return Container(
       margin: margin,
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),

@@ -9,4 +9,19 @@ class HesCodeViewModel {
   Stream<QuerySnapshot> getHesCodes() {
     return _hesCodeService.getHesCodes();
   }
+
+  Future addHesCode(String code) {
+    Map<String, dynamic> data = {
+      "code": code,
+      "isDeleted": false,
+    };
+    return _hesCodeService.addHesCode(data);
+  }
+
+  Future deleteHesCode(DocumentReference reference) {
+    Map<String, dynamic> data = {
+      "isDeleted": true,
+    };
+    return _hesCodeService.deleteHesCode(reference, data);
+  }
 }
