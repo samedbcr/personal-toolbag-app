@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppConstants {
   static final light = Color(0xFFFAEFE4);
+  static final lightGrey = Color(0xFF868994);
   static final purple = Color(0xFFD1C1CD);
   static final somon = Color(0xFFF4B06A);
   static final dark = Color(0xFF0C0812);

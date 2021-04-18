@@ -1,3 +1,4 @@
+import 'package:PersonalToolbag/theme/custom_dark_theme.dart';
 import 'package:PersonalToolbag/theme/custom_light_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class ThemeProvider extends ChangeNotifier {
     if (_isDark) {
       _theme = CustomLightTheme.theme;
     } else {
-      _theme = ThemeData.dark();
+      _theme = CustomDarkTheme.theme;
     }
     _isDark = !isDark;
     notifyListeners();
