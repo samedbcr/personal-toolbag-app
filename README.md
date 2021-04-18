@@ -1,16 +1,24 @@
-# PersonalToolbag
+# PersonalToolbag Application
 
-A new Flutter project.
+A Flutter project that tries to makes your Toolbag tidier. I've tried to make well organized Flutter project with Firebase and good UI.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+In order to run the project, you need to implement your own Firebase Firestore configuration files.
+- Android: add ```google-services.json``` into ```android/app/``` folder.
+- iOS: add ```GoogleService-Info.plist``` into ```ios/``` folder.
 
-A few resources to get you started if this is your first Flutter project:
+**Packages we are using:**
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- flutter_svg
+- provider
+- firebase_core
+- cloud_firestore
+- cupertino_icons
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Photos
+### Light Theme
+![Preview](mockup_photos/photo_2.png)
+![Preview](mockup_photos/photo_1.png)
+### Dark Theme
+![Preview](mockup_photos/photo_3.png)
