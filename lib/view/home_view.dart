@@ -1,6 +1,7 @@
 import 'package:PersonalToolbag/theme/constants.dart';
 import 'package:PersonalToolbag/view_model/home_view_model.dart';
 import 'package:PersonalToolbag/widgets/activity_card.dart';
+import 'package:PersonalToolbag/widgets/empty_data_text.dart';
 import 'package:PersonalToolbag/widgets/theme_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -156,7 +157,10 @@ class HomeView extends StatelessWidget {
             if (snapshot.hasData) {
               return _buildRecentActivitiesList(snapshot.data.docs);
             } else {
-              return Text("no data");
+              return EmptyDataText(
+                context: context,
+                text: "There is not any Activities!",
+              );
             }
             break;
           default:
