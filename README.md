@@ -8,7 +8,7 @@ In order to run the project, you need to implement your own Firebase Firestore c
 - Android: add ```google-services.json``` into ```android/app/``` folder.
 - iOS: add ```GoogleService-Info.plist``` into ```ios/``` folder.
 
-**Packages we are using:**
+**Using Packages:**
 
 - flutter_svg
 - provider
